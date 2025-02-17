@@ -1,0 +1,14 @@
+@import "tailwindcss";
+@import "@nuxt/ui";
+
+@theme {
+  --font-sans: 'Public Sans', sans-serif;
+  --font-oswald: 'Oswald', sans-serif;
+}
+
+:root {
+  --ui-primary-dark: #0d401C;
+  --ui-primary: #278d45;
+  --ui-secondary: #f8c32c;
+  --ui-accent: #52320a;
+}

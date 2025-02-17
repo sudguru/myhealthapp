@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scrolling Header</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        #main-content {
+            padding-top: 0;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100">
+
+    <!-- Top Bar -->
+    <div id="top-bar"
+        class="bg-blue-500 text-white py-2 text-sm fixed top-0 left-0 w-full z-20 transition-transform duration-300 transform translate-y-0">
+        <div class="container mx-auto px-4">
+            <a href="#" class="hover:text-blue-200">Link 1</a>
+            <a href="#" class="hover:text-blue-200 ml-4">Link 2</a>
+            <a href="#" class="hover:text-blue-200 ml-4">Link 3</a>
+        </div>
+    </div>
+
+    <!-- Site Header -->
+    <header id="site-header"
+        class="bg-white shadow-md py-4 fixed top-0 left-0 w-full z-10 transition-transform duration-300 transform translate-y-0">
+        <div class="container mx-auto flex items-center justify-between px-4">
+            <div class="text-xl font-bold">Logo</div>
+            <nav>
+                <a href="#" class="hover:text-gray-600 mr-4">Home</a>
+                <a href="#" class="hover:text-gray-600 mr-4">About</a>
+                <a href="#" class="hover:text-gray-600">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Content (Placeholder) -->
+    <main>
+        <div id="main-content" class="container mx-auto px-4 py-12">
+            <p class="text-gray-700">
+                <!-- Placeholder text - Add your actual content here -->
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. [Repeat many times to generate long content]
+                ...
+            </p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+            <p>asdfsdafas</p>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const topBar = document.getElementById('top-bar');
+            const siteHeader = document.getElementById('site-header');
+            const mainContent = document.getElementById('main-content');
+            let lastScrollTop = 0;
+            let topBarHeight = topBar.offsetHeight;
+            let headerHeight = siteHeader.offsetHeight;
+            let tolerance = 5;
+            let topBarVisible = true;
+
+            // Function to update the top position of the site header
+            function updateHeaderTop() {
+                siteHeader.style.top = topBarVisible ? `${topBarHeight}px` : '0px';
+            }
+
+            // Adjust Content padding-top and Initial Header Top position
+            function adjustContentPadding() {
+                const totalHeaderHeight = topBarVisible ? topBarHeight + headerHeight : headerHeight;
+                mainContent.style.paddingTop = `${totalHeaderHeight + 30}px`;
+                updateHeaderTop();
+            }
+
+            adjustContentPadding();  // Initial setup
+
+            window.addEventListener('scroll', () => {
+                let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+                // Determine scroll direction
+                if (scrollTop > lastScrollTop) { // Scrolling down
+
+                    // Hide Header
+                    if (scrollTop > headerHeight + topBarHeight && Math.abs(scrollTop - lastScrollTop) > tolerance) {
+                        siteHeader.classList.remove('translate-y-0');
+                        siteHeader.classList.add('-translate-y-full');
+                    }
+
+                    // Hide Top Bar
+                    if (topBarVisible) {
+                        topBar.classList.add('-translate-y-full');
+                        topBarVisible = false;
+                        updateHeaderTop(); // update header position
+                        adjustContentPadding(); // Update Content padding
+                    }
+
+                } else { // Scrolling up
+
+                    if (scrollTop + window.innerHeight < document.documentElement.scrollHeight) {
+                        // Show header
+                        if (Math.abs(scrollTop - lastScrollTop) > tolerance) {
+                            siteHeader.classList.remove('-translate-y-full');
+                            siteHeader.classList.add('translate-y-0');
+                        }
+                    }
+
+                    // Show Top Bar
+                    if (scrollTop <= topBarHeight) {
+                        topBar.classList.remove('-translate-y-full');
+                        topBar.classList.add('translate-y-0');
+                        topBarVisible = true;
+                        updateHeaderTop();
+                        adjustContentPadding();
+
+                    }
+                }
+
+                lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+            });
+
+            window.addEventListener('resize', () => {
+                topBarHeight = topBar.offsetHeight;  // update heights on resize
+                headerHeight = siteHeader.offsetHeight;
+                adjustContentPadding();
+            });
+        });
+    </script>
+</body>
+
+</html>

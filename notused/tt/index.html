@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horizontal Scroll Cards</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        /* Custom styles */
+        .scroll-container {
+            overflow-x: auto;
+            overflow-y: hidden;
+            /* Prevent vertical scrollbar */
+            white-space: nowrap;
+            /* Keep cards in a single line */
+            -webkit-overflow-scrolling: touch;
+            /* Enable smooth scrolling on iOS */
+        }
+
+        .card {
+            display: inline-block;
+            width: 300px;
+            /* Adjust width as needed */
+            height: 200px;
+            /* Adjust height as needed */
+            margin-right: 20px;
+            /* Spacing between cards */
+        }
+
+        /* Initial visibility setup */
+        .scroll-container::-webkit-scrollbar {
+            display: none;
+            /* Hide scrollbar for Chrome, Safari, and Opera */
+        }
+
+        .scroll-container {
+            -ms-overflow-style: none;
+            /* Hide scrollbar for IE and Edge */
+            scrollbar-width: none;
+            /* Hide scrollbar for Firefox */
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100">
+
+    <div class="container mx-auto py-10">
+        <h1 class="text-3xl font-bold mb-5">Horizontal Scrolling Cards</h1>
+
+        <div id="scrollArea" class="scroll-container relative">
+            <!-- Cards -->
+            <div class="card bg-white rounded-lg shadow-md p-4">Card 1</div>
+            <div class="card bg-white rounded-lg shadow-md p-4">Card 2</div>
+            <div class="card bg-white rounded-lg shadow-md p-4">Card 3</div>
+            <div class="card bg-white rounded-lg shadow-md p-4">Card 4</div>
+            <div class="card bg-white rounded-lg shadow-md p-4">Card 5</div>
+            <div class="card bg-white rounded-lg shadow-md p-4">Card 6</div>
+            <div class="card bg-white rounded-lg shadow-md p-4">Card 7</div>
+            <div class="card bg-white rounded-lg shadow-md p-4">Card 8</div>
+            <div class="card bg-white rounded-lg shadow-md p-4">Card 9</div>
+            <div class="card bg-white rounded-lg shadow-md p-4">Card 10</div>
+
+        </div>
+    </div>
+
+    <script>
+        const scrollArea = document.getElementById('scrollArea');
+
+        scrollArea.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            scrollArea.scrollLeft += e.deltaY;
+        });
+
+
+        // Initial visibility adjustment (optional - for the 1.5 card look)
+        window.addEventListener('load', () => {
+            const cardWidth = document.querySelector('.card').offsetWidth;
+            scrollArea.style.paddingLeft = `calc(${cardWidth * 0.5}px)`; // half of card width
+        });
+    </script>
+
+</body>
+
+</html>

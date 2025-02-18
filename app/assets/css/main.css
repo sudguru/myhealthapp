@@ -7,8 +7,15 @@
 }
 
 :root {
-  --ui-primary-dark: #0d401C;
-  --ui-primary: #278d45;
-  --ui-secondary: #f8c32c;
-  --ui-accent: #52320a;
+  --ui-light: #dbe4fb;
+  --ui-primary: #9780d6;
+  --ui-secondary: #d1d4f7;
+  --ui-accent: #c69daf;
+  --ui-lighter: #efeffb;
+  --ui-accent-2: #f59474;
+
+}
+
+html, body {
+  height: 100%;
 }

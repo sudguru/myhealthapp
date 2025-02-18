@@ -1,23 +1,17 @@
 <template>
-    <div>
-        <!-- <h1 class="text-4xl">Header</h1>
-        <UIcon name="i-lucide:atom" class="size-15" />
-        <UButton color="primary" label="Hello" /> -->
-        <Header />
+    <div
+        class="relative inset-0 -z-10 h-full w-full bg-[var(--ui-lighter)] bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]">
+        <div
+            class="fixed left-0 right-0 top-0 -z-10 m-auto h-[610px] w-[610px] rounded-full bg-[var(--ui-primary)] opacity-30 blur-[100px]" />
+        <SiteHeader />
+
         <main>
-            <div id="main-content" class="container mx-auto px-4 py-8">
+            <div id="main-content">
                 <slot />
             </div>
-            <p class="h-[2000px]">sss</p>
         </main>
-
-        <h1 class="text-4xl text-[var(--ui-accent)]">Footer</h1>
+        <footer>
+            Footer
+        </footer>
     </div>
 </template>
-
-<style scoped>
-#main-content {
-    padding-top: 0;
-    /* Make sure padding is initially 0 */
-}
-</style>

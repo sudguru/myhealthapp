@@ -1,6 +1,9 @@
 <template>
-  <div class="flex flex-col items-center justify-center gap-4 font-oswald">
-    Home
-    <span class="font-sans">Hello Wold</span>
+  <div>
+    <div>
+      <img src="/long-pharmacy.webp" alt="Long Pharmacy" class="opacity-25">
+    </div>
+    <div class="container mx-auto flex flex-col items-center justify-center" />
   </div>
+
 </template>

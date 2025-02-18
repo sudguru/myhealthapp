@@ -12,7 +12,7 @@
         <div class="container mx-auto flex items-center justify-between px-4">
 
             <img src="/logo.webp" class="h-12 w-auto" alt="website Logo">
-            <div>
+            <div class="hidden md:block">
                 <MainNavigation />
             </div>
         </div>

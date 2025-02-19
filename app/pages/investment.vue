@@ -1,3 +1,3 @@
 <template>
-    <div>public</div>
+    <div>investment</div>
 </template>

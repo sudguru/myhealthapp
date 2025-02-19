@@ -5,7 +5,8 @@ export default withNuxt([
   {
     rules: {
       'vue/max-attributes-per-line': 'off',
-      'vue/first-attribute-linebreak': 'off'
+      'vue/first-attribute-linebreak': 'off',
+      'vue/no-multiple-template-root': 'off'
     }
   }
 ])

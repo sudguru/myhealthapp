@@ -17,6 +17,10 @@ export default defineNuxtConfig({
 
   compatibilityDate: '2024-11-27',
 
+  ui: {
+    colorMode: false
+  },
+
   image: {
     domains: ['cms.ait.com.np'],
     quality: 90,

@@ -1,177 +1,146 @@
 <template>
-    <div id="top-bar"
-        class="bg-[var(--ui-primary)] text-white py-2 text-sm fixed top-0 left-0 w-full z-20 transition-transform duration-300 transform translate-y-0">
+    <div ref="topBarRef"
+        class="bg-[var(--ui-primary)] text-white py-2 text-sm fixed top-0 left-0 w-full z-20 transition-transform duration-300"
+        :class="[
+            isInitialLoad ? 'translate-y-[-100%]' : '',
+            !isTopBarVisible ? '-translate-y-full' : 'translate-y-0'
+        ]">
         <div class="container mx-auto px-4">
             <a href="#" class="hover:text-blue-200">Link 1</a>
             <a href="#" class="hover:text-blue-200 ml-4">Link 2</a>
             <a href="#" class="hover:text-blue-200 ml-4">Link 3</a>
         </div>
     </div>
-    <header id="site-header"
-        class="bg-[var(--ui-lighter)] opacity-10 shadow-none py-4 fixed top-0 left-0 w-full z-10 transition-transform duration-300 transform translate-y-0">
-        <div class="container mx-auto flex items-center justify-between px-4">
 
-            <img src="/logo.webp" class="h-12 w-auto" alt="website Logo">
-            <div class="hidden md:block">
+    <header ref="headerRef"
+        class="bg-[var(--ui-lighter)] shadow-none py-4 fixed w-full z-10 transition-transform duration-300"
+        :class="[
+            isInitialLoad ? 'translate-y-[-100%]' : '',
+            !isHeaderVisible ? '-translate-y-full' : 'translate-y-0'
+        ]" :style="{ top: headerTopPosition }">
+        <div class="container mx-auto flex items-center justify-between px-4">
+            <img src="/logo.webp" class="h-12 w-auto" alt="Website Logo">
+            <div class="hidden lg:block">
                 <MainNavigation />
+            </div>
+            <div class="lg:hidden">
+                <MobileNavigation />
             </div>
         </div>
     </header>
+
+    <div :style="{ height: `${totalHeaderHeight}px` }" />
 </template>
-<script>
-import { onMounted, onBeforeUnmount } from "vue"; // Import lifecycle hooks
-import { ref } from "@vue/composition-api"; // Import ref
 
-export default {
-    setup() {
-        // Using Composition API
-        const topBarVisible = ref(true);
-        const topBarHeight = ref(0);
-        const headerHeight = ref(0);
+<script setup>
+import { MobileNavigation } from '#components'
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 
-        const updateHeaderTop = () => {
-            const siteHeader = document.getElementById("site-header");
-            if (siteHeader) {
-                siteHeader.style.top = topBarVisible.value
-                    ? `${topBarHeight.value}px`
-                    : "0px";
-            }
-        };
+// Refs for DOM elements
+const topBarRef = ref(null)
+const headerRef = ref(null)
 
-        const adjustContentPadding = () => {
-            const mainContent = document.getElementById("main-content");
-            if (mainContent) {
-                const totalHeaderHeight = topBarVisible.value
-                    ? topBarHeight.value + headerHeight.value
-                    : headerHeight.value;
-                mainContent.style.paddingTop = `${totalHeaderHeight + 30}px`;
-            }
-            updateHeaderTop();
-        };
+// State
+const isInitialLoad = ref(true)
+const isTopBarVisible = ref(true)
+const isHeaderVisible = ref(true)
+const topBarHeight = ref(0)
+const headerHeight = ref(0)
+const lastScrollPosition = ref(0)
 
-        let lastScrollTop = 0;
-        const tolerance = 5;
+// Computed values
+const headerTopPosition = computed(() =>
+    isTopBarVisible.value ? `${topBarHeight.value}px` : '0px'
+)
 
-        const handleScroll = () => {
-            const scrollTop =
-                window.pageYOffset || document.documentElement.scrollTop;
-            if (scrollTop > lastScrollTop) {
-                // Scrolling down
-                if (
-                    scrollTop > headerHeight.value + topBarHeight.value &&
-                    Math.abs(scrollTop - lastScrollTop) > tolerance
-                ) {
-                    document
-                        .getElementById("site-header")
-                        ?.classList.remove("translate-y-0");
-                    document
-                        .getElementById("site-header")
-                        ?.classList.add("-translate-y-full");
-                }
+const totalHeaderHeight = computed(() =>
+    isTopBarVisible.value ? topBarHeight.value + headerHeight.value : headerHeight.value
+)
 
-                if (topBarVisible.value) {
-                    topBarVisible.value = false; // using ref to update value
-                    document
-                        .getElementById("top-bar")
-                        ?.classList.add("-translate-y-full");
-                    document.getElementById("top-bar")?.classList.remove("translate-y-0"); //Important!
-                    updateHeaderTop();
-                    adjustContentPadding();
-                }
-            } else {
-                // Scrolling up
-                if (
-                    scrollTop + window.innerHeight <
-                    document.documentElement.scrollHeight
-                ) {
-                    if (Math.abs(scrollTop - lastScrollTop) > tolerance) {
-                        document
-                            .getElementById("site-header")
-                            ?.classList.remove("-translate-y-full");
-                        document
-                            .getElementById("site-header")
-                            ?.classList.add("translate-y-0");
-                    }
-                }
+// Constants
+const SCROLL_TOLERANCE = 5
+const SCROLL_THRESHOLD = 50
 
-                if (scrollTop <= topBarHeight.value) {
-                    topBarVisible.value = true;
-                    document
-                        .getElementById("top-bar")
-                        ?.classList.remove("-translate-y-full");
-                    document.getElementById("top-bar")?.classList.add("translate-y-0");
-                    updateHeaderTop();
-                    adjustContentPadding();
+// Update dimensions
+const updateDimensions = () => {
+    if (topBarRef.value && headerRef.value) {
+        topBarHeight.value = topBarRef.value.offsetHeight
+        headerHeight.value = headerRef.value.offsetHeight
+    }
+}
+
+// Scroll handler with debounce
+let scrollTimeout
+const handleScroll = () => {
+    if (scrollTimeout) {
+        window.cancelAnimationFrame(scrollTimeout)
+    }
+
+    scrollTimeout = window.requestAnimationFrame(() => {
+        const currentScrollPosition = window.pageYOffset || document.documentElement.scrollTop
+        const scrollDelta = Math.abs(currentScrollPosition - lastScrollPosition.value)
+
+        if (scrollDelta > SCROLL_TOLERANCE) {
+            // Scrolling down
+            if (currentScrollPosition > lastScrollPosition.value) {
+                if (currentScrollPosition > SCROLL_THRESHOLD) {
+                    isTopBarVisible.value = false
+                    isHeaderVisible.value = false
                 }
             }
-            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
-        };
-
-        const handleResize = () => {
-            const topBarElement = document.getElementById("top-bar");
-            const headerElement = document.getElementById("site-header");
-
-            if (topBarElement && headerElement) {
-                topBarHeight.value = topBarElement.offsetHeight;
-                headerHeight.value = headerElement.offsetHeight;
-                adjustContentPadding();
+            // Scrolling up
+            else {
+                isHeaderVisible.value = true
+                if (currentScrollPosition <= topBarHeight.value) {
+                    isTopBarVisible.value = true
+                }
             }
-        };
+        }
 
-        // onMounted(() => {
-        //     // Get initial heights only after the component is mounted
-        //     const topBarElement = document.getElementById('top-bar');
-        //     const headerElement = document.getElementById('site-header');
+        lastScrollPosition.value = currentScrollPosition <= 0 ? 0 : currentScrollPosition
+    })
+}
 
-        //     if (topBarElement && headerElement) {
-        //         topBarHeight.value = topBarElement.offsetHeight;
-        //         headerHeight.value = headerElement.offsetHeight;
-        //     }
-        //     adjustContentPadding();
+// Resize handler with debounce
+let resizeTimeout
+const handleResize = () => {
+    if (resizeTimeout) {
+        window.cancelAnimationFrame(resizeTimeout)
+    }
 
-        //     window.addEventListener('scroll', handleScroll);
-        //     window.addEventListener('resize', handleResize);
-        // });
+    resizeTimeout = window.requestAnimationFrame(updateDimensions)
+}
 
-        onMounted(() => {
-            // Get initial heights only after the component is mounted
-            const topBarElement = document.getElementById("top-bar");
-            const headerElement = document.getElementById("site-header");
+// Lifecycle hooks
+onMounted(() => {
+    // Set initial positions
+    updateDimensions()
 
-            if (topBarElement && headerElement) {
-                topBarHeight.value = topBarElement.offsetHeight;
-                headerHeight.value = headerElement.offsetHeight;
-            }
-            adjustContentPadding();
+    // Trigger initial animation
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            isInitialLoad.value = false
+        })
+    })
 
-            // Restore opacity after the initial positioning
-            const siteHeader = document.getElementById("site-header");
-            if (siteHeader) {
-                siteHeader.style.opacity = "1";
-                setTimeout(() => {
-                    // Timeout to force re-rendering of the site-header for the transition to work.
-                    siteHeader.style.transition = ""; // Restore transition
-                }, 0);
-            }
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    window.addEventListener('resize', handleResize, { passive: true })
+})
 
-            const topBar = document.getElementById("top-bar");
-            if (topBar) {
-                topBar.style.transition = "";
-            }
-
-            window.addEventListener("scroll", handleScroll);
-            window.addEventListener("resize", handleResize);
-        });
-
-        onBeforeUnmount(() => {
-            window.removeEventListener("scroll", handleScroll);
-            window.removeEventListener("resize", handleResize);
-        });
-
-        return {
-            topBarVisible,
-            // Expose any other data or methods you need in your template
-        };
-    },
-};
+onBeforeUnmount(() => {
+    if (scrollTimeout) {
+        window.cancelAnimationFrame(scrollTimeout)
+    }
+    if (resizeTimeout) {
+        window.cancelAnimationFrame(resizeTimeout)
+    }
+    window.removeEventListener('scroll', handleScroll)
+    window.removeEventListener('resize', handleResize)
+})
 </script>
+
+<style scoped>
+.transition-transform {
+    will-change: transform;
+}
+</style>

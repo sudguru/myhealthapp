@@ -6,9 +6,9 @@
             !isTopBarVisible ? '-translate-y-full' : 'translate-y-0'
         ]">
         <div class="container mx-auto px-4">
-            <a href="#" class="hover:text-blue-200">Link 1</a>
-            <a href="#" class="hover:text-blue-200 ml-4">Link 2</a>
-            <a href="#" class="hover:text-blue-200 ml-4">Link 3</a>
+            <NuxtLink to="/investment" class="hover:text-blue-200 ml-4">A Brief Inventment
+                Opportunity
+            </NuxtLink>
         </div>
     </div>
 
@@ -19,7 +19,8 @@
             !isHeaderVisible ? '-translate-y-full' : 'translate-y-0'
         ]" :style="{ top: headerTopPosition }">
         <div class="container mx-auto flex items-center justify-between px-4">
-            <img src="/logo.webp" class="h-12 w-auto" alt="Website Logo">
+            <NuxtLink to="/"><img src="/logo.webp" class="h-12 w-auto" alt="Website Logo">
+            </NuxtLink>
             <div class="hidden lg:block">
                 <MainNavigation />
             </div>

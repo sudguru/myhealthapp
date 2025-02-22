@@ -8,12 +8,10 @@
 
 
         <main>
-            <div id="main-content" class="px-6">
+            <div id="main-content">
                 <slot />
             </div>
         </main>
-        <footer>
-            Footer
-        </footer>
+        <SiteFooter />
     </div>
 </template>

@@ -1,5 +1,22 @@
 <script setup>
-import FEATURES from '~/data/feature-data';
+
+
+defineProps({
+    title: {
+        type: String,
+        default: "Your Awesome Title Here",
+    },
+    description: {
+        type: String,
+        default: "",
+    },
+    features: {
+        type: Array,
+        default: () => []
+    }
+});
+
+
 onMounted(() => {
     const scrollArea = document.getElementById('scrollArea');
 
@@ -28,18 +45,25 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="my-10 py-10 bg-[var(--ui-light)] text-gray-800">
-        <h1 class="text-3xl md:text-5xl mb-10 px-4 text-center">Empower Your Pharmacy
-            with
-            Smart Technology</h1>
-
+    <div class="my-14 py-8 text-gray-800">
+        <h1 class="text-3xl md:text-5xl mb-18 px-4 text-center">{{ title }}</h1>
+        <p v-if="description">{{ description }}</p>
         <div id="scrollArea" class="scroll-container">
-            <div class="cards-wrapper">
-                <div v-for="feature in FEATURES" :key="feature.title"
-                    class="card gradient-card  rounded-lg shadow-md p-4">
-                    <h3>{{ feature.title }}</h3>
-                    <div v-for="child in feature.children" :key="child[0]">
-                        <p>{{ child }}</p>
+            <div class="flex gap-6">
+                <div v-for="feature in features" :key="feature.title"
+                    class="gradient-card relative flex-none w-full h-[500px] md:w-[700px] md:h-[350px] transition-transform duration-[0.8s]  rounded-lg shadow-lg p-6 md:p-10">
+                    <h2 class="text-xl md:text-2xl font-semibold mb-4 md:mb-7 text-violet-950">{{
+                        feature.title
+                        }}</h2>
+                    <img :src="feature.image"
+                        class="absolute bottom-3 right-3 w-60 h-auto md:max-w-none"
+                        alt="{{ feature.title }}">
+                    <div v-for="child in feature.children" :key="child[0]" class="pl-3 md:pl-6">
+                        <p class="flex items-start mb-2 text-gray-900 text-xl">
+                            <UIcon name="solar:adhesive-plaster-line-duotone"
+                                class="size-5 mr-3 mt-2" />
+                            {{ child }}
+                        </p>
                     </div>
                 </div>
             </div>
@@ -55,18 +79,13 @@ onMounted(() => {
     -webkit-overflow-scrolling: touch;
 }
 
-.cards-wrapper {
-    display: flex;
-    gap: 20px;
-    padding-right: 20px;
-    /* Ensure last card has spacing */
-}
+
 
 .card {
-    flex: 0 0 450px;
+    flex: 0 0 700px;
     /* Don't allow cards to shrink or grow */
     height: 350px;
-    transition: transform 0.2s;
+    transition: transform 0.8s;
 }
 
 /* Hide scrollbar but keep functionality */
@@ -77,14 +96,5 @@ onMounted(() => {
 .scroll-container {
     -ms-overflow-style: none;
     scrollbar-width: none;
-}
-
-.gradient-card {
-    @apply relative overflow-hidden transition-all duration-300;
-    background: linear-gradient(135deg, #9780d6 0%, #c69daf 100%);
-}
-
-.gradient-card:hover {
-    background: linear-gradient(135deg, #c69daf 0%, #9780d6 100%);
 }
 </style>

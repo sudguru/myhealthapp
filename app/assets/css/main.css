@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
+@plugin "@tailwindcss/typography";
 
 @theme {
   --font-sans: 'Public Sans', sans-serif;
@@ -20,20 +21,16 @@ html, body {
   height: 100%;
 }
 
-/* .gradient-card {
-  @apply relative overflow-hidden transition-all duration-300;
-  background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+.gradient-card {
+  background: linear-gradient(135deg, #9780d6 0%, #efeffb 100%);
 }
 
 .gradient-card:hover {
-  background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);
+  background: linear-gradient(135deg, #efeffb 0%, #9780d6 100%);
 }
 
-.scroll-section-outer {
-  overflow: hidden;
+@media (max-width: 768px) {
+  .parallax {
+    background-attachment: scroll;
+  }
 }
-
-.scroll-section-inner {
-  display: flex;
-  position: relative;
-} */

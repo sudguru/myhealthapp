@@ -19,3 +19,21 @@
 html, body {
   height: 100%;
 }
+
+/* .gradient-card {
+  @apply relative overflow-hidden transition-all duration-300;
+  background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+}
+
+.gradient-card:hover {
+  background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);
+}
+
+.scroll-section-outer {
+  overflow: hidden;
+}
+
+.scroll-section-inner {
+  display: flex;
+  position: relative;
+} */

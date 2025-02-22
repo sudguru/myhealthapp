@@ -8,14 +8,15 @@
                 <br>Today
             </h1>
             <UButtonGroup>
-                <UInput v-model="email" placeholder="Enter your email to get started" :ui="{
-                    base: 'bg-white border-2 border-gray-700 rounded-lg py-4 px-6 w-80',
+                <UInput v-model="email" placeholder="Enter your email" :ui="{
+                    base: 'bg-white border-2 border-gray-700 rounded-lg py-4 px-6 w-60 text-lg',
 
                 }">
                 </UInput>
 
                 <UButton variant="solid" color="primary"
-                    :ui="{ base: 'border-2 border-l-0 border-gray-700 rounded-lg px-4' }">Book a
+                    :ui="{ base: 'border-2 border-l-0 border-gray-700 rounded-lg px-4 text-lg' }">
+                    Book a
                     Demo
                 </UButton>
             </UButtonGroup>
@@ -24,7 +25,5 @@
 </template>
 
 <script setup lang="ts">
-import { UButton } from '#components';
-
 const email = ref('')
 </script>

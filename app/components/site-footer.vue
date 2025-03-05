@@ -7,7 +7,8 @@ import MENUDATA from "~/data/menu-data"
             <!-- Grid -->
             <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
                 <div class="col-span-full lg:col-span-1">
-                    <NuxtLink to="/"><img src="/logo.webp" class="h-18 w-auto" alt="Website Logo">
+                    <NuxtLink to="/"><img src="/logo.webp" class="h-18 w-auto invert brightness-90"
+                            alt="Website Logo">
                     </NuxtLink>
                 </div>
                 <!-- End Col -->
